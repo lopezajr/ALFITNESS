@@ -1,45 +1,58 @@
-import React, { useContext } from 'react';
-import { ScrollMenu, VisibilityContext } from 'react-horizontal-scrolling-menu';
-import { Box, Typography } from '@mui/material';
+import React from 'react';
+import { Box } from '@mui/material';
 
 import ExerciseCard from './ExerciseCard';
 import BodyPart from './BodyPart';
-import RightArrowIcon from '../assets/icons/right-arrow.png';
-import LeftArrowIcon from '../assets/icons/left-arrow.png';
 
-const LeftArrow = () => {
-  const { scrollPrev } = useContext(VisibilityContext);
+const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => {
+  const scrollbarStyle = `
+    .horizontal-scrollbar {
+      overflow-x: auto;
+      overflow-y: hidden; /* Hide vertical scrollbar */
+      white-space: nowrap;
+      cursor: pointer; /* Change cursor to pointer */
+    }
+
+    .horizontal-scrollbar::-webkit-scrollbar {
+      width: 10px; /* Width of the scrollbar */
+    }
+    .horizontal-scrollbar::-webkit-scrollbar-track {
+      background: rgba(0, 0, 0, 0.1); /* Track color with opacity */
+    }
+
+    .horizontal-scrollbar::-webkit-scrollbar-thumb {
+      background-color: rgba(255, 0, 0, 0.7); /* Thumb color with opacity */
+      border-radius: 5px; /* Roundness of the thumb */
+    }
+
+    .scroll-content {
+      display: flex;
+    }
+
+    .scroll-item {
+      margin: 0 10px; /* Adjust spacing between items */
+    }
+  `;
 
   return (
-    <Typography onClick={() => scrollPrev()} className="right-arrow">
-      <img src={LeftArrowIcon} alt="right-arrow" />
-    </Typography>
+    <>
+      <style>{scrollbarStyle}</style>
+      <div className="horizontal-scrollbar">
+        <div className="scroll-content">
+          {data.map((item) => (
+            <Box
+              key={item.id || item}
+              itemID={item.id || item}
+              title={item.id || item}
+              className="scroll-item"
+            >
+              {bodyParts ? <BodyPart item={item} setBodyPart={setBodyPart} bodyPart={bodyPart} /> : <ExerciseCard exercise={item} /> }
+            </Box>
+          ))}
+        </div>
+      </div>
+    </>
   );
 };
-
-const RightArrow = () => {
-  const { scrollNext } = useContext(VisibilityContext);
-
-  return (
-    <Typography onClick={() => scrollNext()} className="left-arrow">
-      <img src={RightArrowIcon} alt="right-arrow" />
-    </Typography>
-  );
-};
-
-const HorizontalScrollbar = ({ data, bodyParts, setBodyPart, bodyPart }) => (
-  <ScrollMenu LeftArrow={LeftArrow} RightArrow={RightArrow}>
-    {data.map((item) => (
-      <Box
-        key={item.id || item}
-        itemID={item.id || item}
-        title={item.id || item}
-        m="0 40px"
-      >
-        {bodyParts ? <BodyPart item={item} setBodyPart={setBodyPart} bodyPart={bodyPart} /> : <ExerciseCard exercise={item} /> }
-      </Box>
-    ))}
-  </ScrollMenu>
-);
 
 export default HorizontalScrollbar;

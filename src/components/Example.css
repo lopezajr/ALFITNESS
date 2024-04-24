@@ -1,0 +1,70 @@
+.example-container {
+    /* Your CSS styles here */
+    .container {
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .image-container {
+      width: 40%;
+    }
+  
+    .text-container {
+      width: 50%;
+      text-align: center;
+    }
+  
+    .content {
+      text-align: center;
+      margin: 0 auto; /* Center the div */
+      max-width: 600px; /* Optional: Limit the width of the content */
+    }
+  
+    hr {
+      border: none;
+      height: 10px; /* Adjust thickness as needed */
+      background-color: red; /* Set color to red */
+      margin-bottom: 50px;
+    }
+  
+    img {
+      border-radius: 20%;
+      max-width: 100%;
+      height: auto;
+    }
+  
+    h1 {
+    color: whitesmoke; /* Set text color to white */
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+      font-weight: bold; /* Increase font weight for emphasis */
+      width: 100%;
+      margin-top: 20px;
+      text-align: center;
+    }
+  
+    h2,
+    p {
+      color: whitesmoke; /* Set text color to white */
+      text-shadow: 1px 1px 1px rgba(0, 0, 0, 0.5); /* Add a subtle shadow */
+      font-weight: bold; /* Increase font weight for emphasis */
+    }
+    
+  
+    @media screen and (max-width: 768px) {
+      .container {
+        flex-direction: column;
+      }
+  
+      .image-container {
+        width: 100%;
+        text-align: center;
+      }
+  
+      .text-container {
+        width: 100%;
+        margin-top: 20px;
+        text-align: center;
+      }
+    }
+  }
+  

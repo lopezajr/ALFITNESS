@@ -12,19 +12,26 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
 
   useEffect(() => {
     const fetchExercisesData = async () => {
-      let exercisesData = [];
+      try {
+        let exercisesData = [];
 
-      if (bodyPart === 'all') {
-        exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
-      } else {
-        exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
+        if (bodyPart === 'all') {
+          exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
+        } else {
+          exercisesData = await fetchData(`https://exercisedb.p.rapidapi.com/exercises/bodyPart/${bodyPart}`, exerciseOptions);
+        }
+
+        if (setExercises && typeof setExercises === 'function') {
+          setExercises(exercisesData);
+        }
+      } catch (error) {
+        console.error('Error fetching exercises:', error);
+        // Handle error fetching exercises, maybe show a message to the user
       }
-
-      setExercises(exercisesData);
     };
 
     fetchExercisesData();
-  }, [bodyPart]);
+  }, [bodyPart, setExercises]);
 
   // Ensure exercises is always an array before using slice
   const currentExercises = Array.isArray(exercises) ? exercises.slice((currentPage - 1) * exercisesPerPage, currentPage * exercisesPerPage) : [];
@@ -39,7 +46,7 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
 
   return (
     <Box id="exercises" sx={{ mt: { lg: '109px' } }} mt="50px" p="20px">
-      <Typography variant="h4" fontWeight="bold" sx={{ fontSize: { lg: '44px', xs: '30px' } }} mb="46px">Showing Results</Typography>
+      <Typography color="white" variant="h4" fontWeight="bold" sx={{ fontSize: { lg: '44px', xs: '30px' } }} mb="46px">Showing Results</Typography>
       <Stack direction="row" sx={{ gap: { lg: '107px', xs: '50px' } }} flexWrap="wrap" justifyContent="center">
         {currentExercises.map((exercise, idx) => (
           <ExerciseCard key={idx} exercise={exercise} />
@@ -55,13 +62,17 @@ const Exercises = ({ exercises, setExercises, bodyPart }) => {
             page={currentPage}
             onChange={paginate}
             size="large"
+           style={{ backgroundColor: 'rgba(245, 245, 245, 0.6)',
+           borderRadius: '100px' 
+          
+          }}
+            
           />
         )}
       </Stack>
     </Box>
   );
 };
-
 
 export default Exercises;
 
